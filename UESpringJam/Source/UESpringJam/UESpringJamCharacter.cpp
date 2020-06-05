@@ -11,6 +11,8 @@
 #include "Kismet/GameplayStatics.h"
 #include "MotionControllerComponent.h"
 #include "XRMotionControllerBase.h" // for FXRMotionControllerBase::RightHandSourceId
+#include "Components/BoxComponent.h"
+#include "TV/TVActor.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
@@ -67,6 +69,21 @@ void AUESpringJamCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 
 void AUESpringJamCharacter::OnFire()
 {
+	FHitResult outHit;
+	FVector startLocation = FirstPersonCameraComponent->GetComponentTransform().GetLocation();
+	FVector endLocation = startLocation + FirstPersonCameraComponent->GetForwardVector() * interactionRange;
+	ECollisionChannel channelQuery = ECollisionChannel::ECC_Visibility;
+	if (this->GetWorld()->LineTraceSingleByChannel(outHit, startLocation, endLocation, channelQuery))
+	{
+		if (GEngine)
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Your shot hit: %s"), *outHit.GetActor()->GetName()));
+
+		if (outHit.GetActor()->IsA<ATVActor>())
+		{
+			ATVActor* tv = Cast<ATVActor>(outHit.GetActor());
+			tv->Interact(this);
+		}
+	}
 }
 
 void AUESpringJamCharacter::MoveForward(float Value)

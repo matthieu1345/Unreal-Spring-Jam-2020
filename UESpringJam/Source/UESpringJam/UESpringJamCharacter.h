@@ -32,6 +32,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Interaction)
+	float interactionRange = 50.0f;
+
 protected:
 	
 	/** Fires a projectile. */
