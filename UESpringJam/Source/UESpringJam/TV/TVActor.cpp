@@ -34,6 +34,13 @@ void ATVActor::BeginPlay()
 {
 	Super::BeginPlay();
 	
+
+	if (dontRandomize)
+	{
+		UpdateSignal();
+		return;
+	}
+
 	signalFloat1 = FMath::RandRange(0.0f, 1.0f);
 	signalFloat1Goal = FMath::RandRange(0.0f, 1.0f);
 	signalFloat2 = FMath::RandRange(0.0f, 9.0f);
@@ -62,6 +69,8 @@ bool ATVActor::CheckCanTeleport()
 void ATVActor::Teleport(AActor* interactor)
 {
 	interactor->SetActorLocation(destination->GetComponentTransform().GetLocation());
+	if (interactor->IsA< AUESpringJamCharacter>())
+		Cast< AUESpringJamCharacter>(interactor)->GetController()->SetControlRotation(destination->GetComponentTransform().GetRotation().Rotator());
 }
 
 

@@ -34,7 +34,8 @@ protected:
 	void StartMinigame(AActor* interactor);
 public:
 
-
+	UPROPERTY(EditInstanceOnly)
+		bool dontRandomize = false;
 
 
 protected:
