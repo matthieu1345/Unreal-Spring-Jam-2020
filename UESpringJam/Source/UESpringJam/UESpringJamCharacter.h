@@ -23,6 +23,8 @@ public:
 protected:
 	virtual void BeginPlay();
 
+	class AUESpringJamGameMode* gamemode;
+
 public:
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)

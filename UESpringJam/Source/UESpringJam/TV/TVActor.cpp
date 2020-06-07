@@ -2,6 +2,7 @@
 
 
 #include "TVActor.h"
+#include "..\UESpringJamGameMode.h"
 #include "..\UESpringJamCharacter.h"
 
 // Sets default values
@@ -48,7 +49,7 @@ void ATVActor::BeginPlay()
 	UpdateSignal();
 }
 
-void ATVActor::Interact(AActor* interactor)
+void ATVActor::Interact_Implementation(AActor* interactor)
 {
 	if (CheckCanTeleport())
 	{
@@ -68,9 +69,21 @@ bool ATVActor::CheckCanTeleport()
 
 void ATVActor::Teleport(AActor* interactor)
 {
+	if (!interactor->IsA<AUESpringJamCharacter>())
+		return;
+
+	CastedGameMode()->saveLocation = interactor->GetActorTransform();
 	interactor->SetActorLocation(destination->GetComponentTransform().GetLocation());
-	if (interactor->IsA< AUESpringJamCharacter>())
-		Cast< AUESpringJamCharacter>(interactor)->GetController()->SetControlRotation(destination->GetComponentTransform().GetRotation().Rotator());
+	Cast< AUESpringJamCharacter>(interactor)->GetController()->SetControlRotation(destination->GetComponentTransform().GetRotation().Rotator());
+}
+
+AUESpringJamGameMode* ATVActor::CastedGameMode()
+{
+	if (castedGamemode == nullptr)
+	{
+		castedGamemode = GetWorld()->GetAuthGameMode<AUESpringJamGameMode>();
+	}
+	return castedGamemode;
 }
 
 

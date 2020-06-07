@@ -15,3 +15,9 @@ AUESpringJamGameMode::AUESpringJamGameMode()
 	// use our custom HUD class
 	HUDClass = AUESpringJamHUD::StaticClass();
 }
+
+void AUESpringJamGameMode::ResetPlayer()
+{
+	playerCharacter->SetActorLocation(saveLocation.GetLocation());
+	playerCharacter->GetController()->SetControlRotation(saveLocation.GetRotation().Rotator());
+}

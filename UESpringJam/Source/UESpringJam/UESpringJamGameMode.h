@@ -13,6 +13,20 @@ class AUESpringJamGameMode : public AGameModeBase
 
 public:
 	AUESpringJamGameMode();
+
+	UPROPERTY(BlueprintReadWrite)
+		FTransform saveLocation;
+
+	class AUESpringJamCharacter* playerCharacter;
+
+	UPROPERTY(BlueprintReadWrite)
+		bool playerHasInhibitor = false;
+
+	UPROPERTY(BlueprintReadWrite)
+		float guardDetectionTime = 2.0f;
+
+	UFUNCTION(BlueprintCallable)
+		void ResetPlayer();
 };
 
 

@@ -4,18 +4,21 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "../Interactable.h"
 #include "TVActor.generated.h"
 
 UCLASS()
-class UESPRINGJAM_API ATVActor : public AActor
+class UESPRINGJAM_API ATVActor : public AActor, public IInteractable
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
 	ATVActor();
-	UFUNCTION(BlueprintCallable)
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 		void Interact(AActor* interactor);
+		virtual void Interact_Implementation(AActor* interactor);
 
 	UFUNCTION(BlueprintCallable)
 		void SetSignalOne(float input);
@@ -27,11 +30,16 @@ protected:
 	virtual void BeginPlay() override;
 
 	void UpdateSignal();
-	bool CheckCanTeleport();
+
+	UFUNCTION(BlueprintCallable)
+		bool CheckCanTeleport();
+
 	void Teleport(AActor* interactor);
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void StartMinigame(AActor* interactor);
+
+	class AUESpringJamGameMode* CastedGameMode();
 public:
 
 	UPROPERTY(EditInstanceOnly)
@@ -57,4 +65,6 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta=(ClampMin=0.0f, ClampMax=1.0f, UIMin=0.0f, UIMax=1.0f))
 	float signalStength = 0.0f;
+
+	class AUESpringJamGameMode* castedGamemode;
 };

@@ -13,6 +13,7 @@
 #include "XRMotionControllerBase.h" // for FXRMotionControllerBase::RightHandSourceId
 #include "Components/BoxComponent.h"
 #include "TV/TVActor.h"
+#include "UESpringJamGameMode.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
@@ -39,6 +40,14 @@ void AUESpringJamCharacter::BeginPlay()
 {
 	// Call the base class  
 	Super::BeginPlay();
+
+	gamemode = GetWorld()->GetAuthGameMode<AUESpringJamGameMode>();
+
+	if (gamemode)
+	{
+		gamemode->playerCharacter = this;
+		gamemode->saveLocation = GetActorTransform();
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -75,13 +84,9 @@ void AUESpringJamCharacter::OnFire()
 	ECollisionChannel channelQuery = ECollisionChannel::ECC_Visibility;
 	if (this->GetWorld()->LineTraceSingleByChannel(outHit, startLocation, endLocation, channelQuery))
 	{
-		if (GEngine)
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Your shot hit: %s"), *outHit.GetActor()->GetName()));
-
-		if (outHit.GetActor()->IsA<ATVActor>())
+		if (outHit.GetActor()->Implements<UInteractable>())
 		{
-			ATVActor* tv = Cast<ATVActor>(outHit.GetActor());
-			tv->Interact(this);
+			IInteractable::Execute_Interact(outHit.GetActor(), this);
 		}
 	}
 }
