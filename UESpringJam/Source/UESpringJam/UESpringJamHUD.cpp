@@ -9,9 +9,6 @@
 
 AUESpringJamHUD::AUESpringJamHUD()
 {
-	// Set the crosshair texture
-	static ConstructorHelpers::FObjectFinder<UTexture2D> CrosshairTexObj(TEXT("/Game/FirstPerson/Textures/FirstPersonCrosshair"));
-	CrosshairTex = CrosshairTexObj.Object;
 }
 
 
