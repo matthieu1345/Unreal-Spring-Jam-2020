@@ -45,6 +45,8 @@ public:
 	UPROPERTY(EditInstanceOnly)
 		bool dontRandomize = false;
 
+	UPROPERTY(EditInstanceOnly)
+		bool useBeforeInhibitorCaught = false;
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Meta = (ClampMin = 0.0f, ClampMax = 1.0f, UIMin = 0.0f, UIMax = 1.0f))

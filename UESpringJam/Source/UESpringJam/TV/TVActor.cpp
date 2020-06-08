@@ -51,6 +51,9 @@ void ATVActor::BeginPlay()
 
 void ATVActor::Interact_Implementation(AActor* interactor)
 {
+	if (!CastedGameMode()->playerHasInhibitor && !useBeforeInhibitorCaught)
+		return;
+
 	if (CheckCanTeleport())
 	{
 		Teleport(interactor);
