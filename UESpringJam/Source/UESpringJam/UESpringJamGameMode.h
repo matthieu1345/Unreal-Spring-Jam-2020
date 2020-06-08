@@ -23,7 +23,7 @@ public:
 		bool playerHasInhibitor = false;
 
 	UPROPERTY(BlueprintReadWrite)
-		float guardDetectionTime = 2.0f;
+		float guardDetectionTime = 1.0f;
 
 	UFUNCTION(BlueprintCallable)
 		void ResetPlayer();
