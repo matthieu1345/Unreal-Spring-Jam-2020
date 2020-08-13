@@ -18,17 +18,17 @@ pipeline {
 		}
 		stage('Build: Prep'){
 			steps{
-				bat label: 'Prepare', script: '"%Unreal 4.25_HOME%\\%Unreal_BuildTool%" -projectfiles -project="%WORKSPACE%\\UESpringJam\\UESpringJam.uproject" -game -rocket -progress'
+				bat label: 'Prepare', script: '"%Unreal 4.25_HOME%\\%Unreal_BuildTool%" -projectfiles -project="%WORKSPACE%\\UESpringJam\\UESpringJam.uproject" -dx12 -game -rocket -progress'
 			}
 		}
 		stage('Build: Build'){
 			steps{
-				bat label: 'Build', script: '"%Unreal 4.25_HOME%\\%Unreal_RunUAT%" BuildCookRun -project="%WORKSPACE%\\UESpringJam\\UESpringJam.uproject" -noP4 -platform=Win64 -clientconfig=Development -cook -allmaps -build -stage -pak -archive -archivedirectory="%WORKSPACE%\\Builds"'
+				bat label: 'Build', script: '"%Unreal 4.25_HOME%\\%Unreal_RunUAT%" BuildCookRun -project="%WORKSPACE%\\UESpringJam\\UESpringJam.uproject" -dx12 -noP4 -platform=Win64 -clientconfig=Development -cook -allmaps -build -stage -pak -archive -archivedirectory="%WORKSPACE%\\Builds"'
 			}
 		}
 		stage('Build: Cook'){
 			steps{
-				bat label: 'cook', script: '"%Unreal 4.25_HOME%\\%Unreal_RunUAT%" BuildCookRun -project="%WORKSPACE%\\UESpringJam\\UESpringJam.uproject" -noP4 -platform=Win64 -clientconfig=Development -cook -allmaps -NoCompile -stage -pak -archive -archivedirectory="%WORKSPACE%\\Builds"'
+				bat label: 'cook', script: '"%Unreal 4.25_HOME%\\%Unreal_RunUAT%" BuildCookRun -project="%WORKSPACE%\\UESpringJam\\UESpringJam.uproject" -dx12 -noP4 -platform=Win64 -clientconfig=Development -cook -allmaps -NoCompile -stage -pak -archive -archivedirectory="%WORKSPACE%\\Builds"'
 			}
 		}
     }
